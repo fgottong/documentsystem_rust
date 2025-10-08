@@ -3,7 +3,21 @@ pub mod document;
 
 fn main() {
     
-    let book1 = Document{
+    let reading_list = create_reading_list();
+    
+    let json = get_reading_list_as_json(&reading_list);
+    
+    println!("{}",json);
+    
+    for book in &reading_list{
+        let json = serde_json::to_string(&book).unwrap();
+        println!("{}",json)
+    }
+
+}
+
+fn create_reading_list()->Vec<Document>{
+let book1 = Document{
         title: String::from("20000 Meilen unter dem Meer"),
         author: String::from("Jules Vernes"),
         content: String::from("STory about an famous Qcean-Scienties and the tragedy of Captn Nemo"),
@@ -26,19 +40,14 @@ fn main() {
     reading_list.push(book2);
     reading_list.push(book1);
 
-
-    for book in &reading_list{
-        // println!("{:?}",book);
-        // println!("{}",book);
-
-        let json = serde_json::to_string(&book).unwrap();
-        println!("{}",json)
-
-    }
+    return reading_list;
 
 }
 
-
+fn get_reading_list_as_json(reading_list:&Vec<Document> )->String{
+    let json = serde_json::to_string(&reading_list).unwrap();
+    return json;
+}
 
 
 // struct author{
