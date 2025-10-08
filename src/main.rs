@@ -1,7 +1,16 @@
 use core::fmt;
 
 use serde::{Deserialize, Serialize};
-use serde_json::Result;
+// use serde_json::Result;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Document{
+    title: String, 
+    author: String,
+    content: String,
+    // created_date: date,
+}
+
 
 fn main() {
     
@@ -33,21 +42,14 @@ fn main() {
         // println!("{:?}",book);
         // println!("{}",book);
 
-        let json = serde_json::to_string(&book);
-        println!("{:#?}",json)
+        let json = serde_json::to_string(&book).unwrap();
+        println!("{}",json)
 
     }
 
 }
 
 
-#[derive(Debug,Serialize, Deserialize)]
-struct Document{
-    title: String, 
-    author: String,
-    content: String,
-    // created_date: date,
-}
 
 impl fmt::Display for Document {
     fn fmt(&self,f:&mut fmt::Formatter)-> fmt::Result{
