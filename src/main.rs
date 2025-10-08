@@ -1,16 +1,5 @@
-use core::fmt;
-
-use serde::{Deserialize, Serialize};
-// use serde_json::Result;
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Document{
-    title: String, 
-    author: String,
-    content: String,
-    // created_date: date,
-}
-
+use crate::document::Document;
+pub mod document;
 
 fn main() {
     
@@ -51,11 +40,6 @@ fn main() {
 
 
 
-impl fmt::Display for Document {
-    fn fmt(&self,f:&mut fmt::Formatter)-> fmt::Result{
-        write!(f, "({} - {}; {})", self.author, self.title, self.content)
-    }
-}
 
 // struct author{
 //     // single author: name, surname, academic title, 
