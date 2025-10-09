@@ -1,6 +1,11 @@
 use crate::document::Document;
 pub mod document;
 
+use std::{
+    fs,
+    io::{prelude::*,BufRead, BufReader}, 
+    net::{TcpListener, TcpStream}};
+
 fn main() {
     
     let reading_list = create_reading_list();
@@ -14,6 +19,14 @@ fn main() {
         let output = &book.to_string(); 
         println!("{}",output);
         println!();
+    }
+
+    let listener:TcpListener = TcpListener::bind("127.0.0.1:7878").unwrap(); 
+    println!("Starte Server");
+    for stream in listener.incoming(){
+        let _stream = stream.unwrap();
+        println!("Connection Established");
+        handle_connection(_stream,&json);
     }
 
 }
@@ -51,6 +64,31 @@ fn get_reading_list_as_json(reading_list:&Vec<Document> )->String{
     return json;
 }
 
+
+fn handle_connection(mut stream: TcpStream,json: &String){
+    let buf_reader = BufReader::new(&mut stream);
+    let http_request: Vec<_> = buf_reader
+        .lines()
+        .map(|result|result.unwrap())
+        .take_while(|lines|!lines.is_empty())
+        .collect();
+    println!("Request:{:#?}",http_request);
+
+
+    let status_line = "HTTP/1.1 200 OK";
+    let content = json;
+    let length = content.len();
+
+    let response = format!(
+        "{status_line}\r\n
+        Content-Length: {length}\r\n\r\n
+        {content}");
+
+        stream.write_all(response.as_bytes()).unwrap();
+
+
+        
+}
 
 // struct author{
 //     // single author: name, surname, academic title, 
