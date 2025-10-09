@@ -8,10 +8,12 @@ fn main() {
     let json = get_reading_list_as_json(&reading_list);
     
     println!("{}",json);
-    
+    println!();
     for book in &reading_list{
-        let json = serde_json::to_string(&book).unwrap();
-        println!("{}",json)
+        //let output = serde_json::to_string(&book).unwrap();
+        let output = &book.to_string(); 
+        println!("{}",output);
+        println!();
     }
 
 }
