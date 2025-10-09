@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>404 — Seite nicht gefunden</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#9ae6b4;--muted:#9aa4b2}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{background: radial-gradient(1200px 600px at 10% 10%, #102235 0%, transparent 15%), radial-gradient(1000px 500px at 90% 90%, #07203a 0%, transparent 12%), var(--bg); color:#e6eef8; display:flex;align-items:center;justify-content:center;padding:32px}
+    .card{width:100%;max-width:980px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:36px;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+    h1{font-size:56px;margin:0 0 8px;letter-spacing:-2px}
+    p.lead{margin:0 0 18px;color:var(--muted);font-size:15px}
+    .actions{display:flex;gap:12px}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:10px 14px;border-radius:10px;color:inherit;text-decoration:none;font-weight:600}
+    .btn.primary{background:linear-gradient(90deg, rgba(154,230,180,0.14), rgba(132,204,255,0.06));border:0}
+    .scene{position:relative;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    /* simple decorative planet */
+    .planet{position:absolute;right:-60px;bottom:-50px;width:260px;height:260px;border-radius:50%;background:conic-gradient(from 120deg, #0f3b5a, #063b39, #0f2b45);filter:blur(6px);opacity:0.22}
+    /* paper plane */
+    .plane{width:120px;position:absolute;left:12%;top:58%;transform-origin:center;animation:fly 6s linear infinite}
+    @keyframes fly{0%{transform:translate(-10px,0) rotate(-10deg)}25%{transform:translate(120px,-60px) rotate(5deg)}50%{transform:translate(360px,-20px) rotate(10deg)}75%{transform:translate(520px,20px) rotate(-5deg)}100%{transform:translate(760px,0) rotate(-10deg)}}
+    /* small stars */
+    .star{position:absolute;width:4px;height:4px;background:rgba(255,255,255,0.85);border-radius:50%;filter:blur(.3px);opacity:.9}
+    .muted{color:var(--muted);font-size:13px}
+    .code{background:rgba(0,0,0,0.2);padding:8px 10px;border-radius:8px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;font-size:13px}
+    .search{display:flex;gap:8px;margin-top:12px}
+    .search input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    .search button{padding:10px 12px;border-radius:10px;border:0;background:rgba(255,255,255,0.06);font-weight:700}
+    footer{grid-column:1/-1;margin-top:8px;color:var(--muted);font-size:13px;text-align:center}
+    @media (max-width:880px){.card{grid-template-columns:1fr;gap:18px}.scene{height:200px}.planet{display:none}}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <section>
+      <h1>404 — Hier ist nichts zu finden</h1>
+      <p class="lead">Ups — die Seite, die du suchst, ist wohl ins Internet-Nirvana abgebogen. Vielleicht wurde sie verschoben, gelöscht oder sie hat einfach Urlaub.</p>
+      <div class="code">Pfad: <span id="path">/unknown</span></div>
+      <div style="height:14px"></div>
+      <div class="actions">
+        <a class="btn primary" href="/">Zur Startseite</a>
+        <a class="btn" href="javascript:history.back()">Zurück</a>
+        <a class="btn" href="/sitemap.xml">Sitemap</a>
+      </div>
+      <div class="search">
+        <input id="q" aria-label="Suche" placeholder="Suche auf der Seite..." />
+        <button id="doSearch">Suchen</button>
+      </div>
+    </section>
+
+    <aside class="scene" aria-hidden="true">
+      <div class="planet" aria-hidden="true"></div>
+
+      <!-- SVG paper plane -->
+      <svg class="plane" viewBox="0 0 64 64" width="120" height="120" aria-hidden="true">
+        <g fill="none" stroke="#dbeafe" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 30 L62 2 34 50 22 34 2 30 Z" fill="rgba(219,234,254,0.02)"/>
+          <path d="M2 30 L22 34"/>
+          <path d="M34 50 L62 2"/>
+        </g>
+      </svg>
+
+      <!-- little stars -->
+      <div class="star" style="left:8%;top:22%;width:6px;height:6px;opacity:.9"></div>
+      <div class="star" style="left:36%;top:12%;width:3px;height:3px;opacity:.7"></div>
+      <div class="star" style="left:55%;top:28%;width:4px;height:4px;opacity:.8"></div>
+      <div class="star" style="left:78%;top:6%;width:3px;height:3px;opacity:.6"></div>
+    </aside>
+
+    <footer>Wenn du denkst, das ist falsch: <a href="mailto:kontakt@deine-domain.de">kontakt@deine-domain.de</a></footer>
+  </main>
+
+  <script>
+    // Zeige den tatsächlichen angefragten Pfad (falls verfügbar)
+    try{
+      var p = decodeURIComponent(location.pathname + (location.search||''));
+      document.getElementById('path').textContent = p;
+    }catch(e){}
+
+    // einfache Suche (leitet weiter zu /search?q=... falls vorhanden)
+    document.getElementById('doSearch').addEventListener('click', function(){
+      var q = document.getElementById('q').value.trim();
+      if(!q) return;
+      var url = '/search?q=' + encodeURIComponent(q);
+      location.href = url;
+    });
+  </script>
+</body>
+<!-- made by chatgpt; 2025-10-09 -->
+</html>
