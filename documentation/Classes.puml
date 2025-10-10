@@ -1,0 +1,23 @@
+@startuml
+title Karl  end title
+class main{}
+
+class document{} 
+
+class server{} 
+
+class docSys{}
+
+class Category{} 
+
+class reading_list{}
+
+main --> server 
+server --> docSys
+server --> reading_list
+docSys --> Category
+Category --> document  
+
+reading_list --> document
+
+@enduml
