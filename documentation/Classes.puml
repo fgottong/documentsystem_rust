@@ -1,5 +1,5 @@
 @startuml
-title Karl  end title
+title Temporary Class-Structure
 class main{}
 
 class document{} 

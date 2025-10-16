@@ -29,7 +29,7 @@ impl Server {
         }
     }
 
-    fn handle_connection(&self,mut stream: TcpStream) {
+    fn handle_connection(&self, mut stream: TcpStream) {
         let buf_reader = BufReader::new(&mut stream);
 
         let http_request: Vec<_> = buf_reader
@@ -37,23 +37,42 @@ impl Server {
             .map(|result| result.unwrap())
             .take_while(|lines| !lines.is_empty())
             .collect();
-       
+
         println!("Request:{:#?}", http_request);
 
-        let json = self.reading_list.to_json();
+        let json = format!(r#"{}"#, self.reading_list.to_json());
+
+        //         let json = r#"
+        // {
+        //   "books": [
+        //     "Journey to the Center of the Earth",
+        //     "Twenty Thousand Leagues Under the Sea",
+        //     "Around the World in Eighty Days"
+        //   ]
+        // }"#;
+
+        println!("Content Ist : {}\n\n", json);
 
         let status_line = "HTTP/1.1 200 OK";
-        let content = json;
-        let length = content.len();
+        let cors_allowed = "Access-Control-Allow-Origin: http://localhost:5173";
+        let cont_type = "Content-Type: application/json; charset=utf-8";
+        let length = json.len();
 
         let response = format!(
-            "{status_line}\r\n
-            Content-Length: {length}\r\n\r\n
-            {content}"
+            "{}
+{}
+{}
+Content-Length: {}
+
+{}",
+            status_line, cors_allowed, cont_type, length, json
         );
 
-        stream.write_all(response.as_bytes()).unwrap();
+        stream.write_all(&response.as_bytes()).unwrap();
+        println!("Habe Antwort gesendet:\n{}", response)
     }
-
-    
 }
+
+// get /reading_list
+
+// Regist multiple Endpoints to server

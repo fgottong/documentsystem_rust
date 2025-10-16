@@ -8,6 +8,7 @@ use crate::server::Server;
 pub mod server;
 
 fn main() {
+    let addr = "localhost:7878".to_string();
     let reading_list = ReadingList::create_reading_list();
 
     for book in &reading_list.list {
@@ -16,8 +17,7 @@ fn main() {
         println!();
     }
 
-    let server = Server::new("127.0.0.1:7878".to_string(), reading_list);
-    println!("Starte Server");
+    let server = Server::new(addr.clone(), reading_list);
+    println!("Starte Server on : {}", addr);
     server.run();
-
 }
