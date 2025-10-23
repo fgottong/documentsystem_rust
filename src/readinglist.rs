@@ -41,8 +41,6 @@ impl ReadingList {
     }
 
     pub fn to_json(&self) -> Value {
-        // String {
-        //let json = serde_json::to_string(&self.list).unwrap();
         let json = json!(&self.list);
         return json;
     }
