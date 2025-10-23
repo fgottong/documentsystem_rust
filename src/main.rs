@@ -73,7 +73,8 @@ async fn main() {
     // server.run();
 }
 
-async fn get_readinglist() -> Json<String> {
+async fn get_readinglist() -> Json<Value> {
+    //<String> {
     let reading_list = ReadingList::create_reading_list(); // TODO: Optimization: create reading_list once and reuse it;
     //Ok(Json(reading_list.to_json()))
     Json(reading_list.to_json())

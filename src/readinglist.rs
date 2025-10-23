@@ -1,3 +1,5 @@
+use serde_json::{Value, json};
+
 use crate::document::Document;
 
 pub struct ReadingList {
@@ -38,8 +40,10 @@ impl ReadingList {
         };
     }
 
-    pub fn to_json(&self) -> String {
-        let json = serde_json::to_string(&self.list).unwrap();
+    pub fn to_json(&self) -> Value {
+        // String {
+        //let json = serde_json::to_string(&self.list).unwrap();
+        let json = json!(&self.list);
         return json;
     }
 }
