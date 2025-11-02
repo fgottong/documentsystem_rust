@@ -19,3 +19,4 @@ To Learn Rust
 ## Useful Resources and Links 
 
 - [README Best Practice](https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/)
+- [Creating an Axum Web Server in Rust is easy!](https://www.youtube.com/watch?v=FDWKlJmHv6k)
