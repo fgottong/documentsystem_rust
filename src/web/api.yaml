@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: DocumentSytem API
+  description: Übung wie man mit Swagger und OpenAPI umgeht
+servers:
+  - description: Mein Localer Host
+    url: localhost:3000/
+
+# Beschreibung der Pfade // URLs // REST-ENDpoints in der Application/Server
+paths:
+  /documents/:
+    post: 
+      tags: 
+        - documents 
+      requestBody:  
+        $ref: '#/components/requestBodies/Document'
+      responses: 
+        201:
+          description: creates a new document
+    get: 
+      tags:
+        - documents
+      responses:
+        200: 
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Document'
+  /document/{title}: 
+    parameters:
+      - name: title
+        in: path
+        required: true
+        schema:
+          type: string
+        description: "Der Titel des Buches"
+        example: "Der entfesselte Judas"
+    get:
+      tags: 
+        - documents
+      responses:
+        200:
+          description: OK
+          $ref: '#/components/responses/Document'
+      
+# Beschreibung der Objecte => Klassendiagramm, 
+components:
+  requestBodies:
+    Document:
+      content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/Document'
+  responses:
+    Document:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Document'
+  schemas:
+    Document:
+      type: object
+      properties: 
+        title: 
+          type: string
+          example: "Der Stern der Pandora"
+        author: 
+          type: string
+          example: "Peter F. Hamilton"
+        content: 
+          type: string
+          example: "The Humankind has grown up, in the year 2148, the Solarsystem and more then 100 other Systems are the home for multi-bilion humanes. This was possible by the breakthrought by Nigel Cheldon and Ossi who created the first working worm-hole machine."
+      example:
+        title: "Die Boten des Unheils"
+        author: "Peter F. Hamilton"
+        content: "The sphere around DYSON-APHA is vanished! The Aliens are released. The SECOND-CHANGES has to flee. Paula Mayo is still hunting Adam Allwin"

@@ -2,22 +2,64 @@
 title Temporary Class-Structure
 class main{}
 
-class document{} 
+class document{
+    title
+    author
+    content
+} 
 
-class server{} 
+class server{
+} 
 
-class docSys{}
+class docSys{
+    - Categories
+    - documents
+}
 
-class Category{} 
+interface  IDocSys{
+    + get_readinglist()
+    + get_Categories()
+    + get_Docs()
+    + get_Docs(Category)
+    + add_document()
+    + add_category()
+}
+
+interface ICat{
+    subcats
+    docs
+    + add_category()
+    + add_document()
+}
+
+class Category{
+    + add_category()
+    + add_document()
+} 
 
 class reading_list{}
 
-main --> server 
-server --> docSys
-server --> reading_list
-docSys --> Category
-Category --> document  
+main --> server : 1..1
+main --> docSys : 1..1
+
+
+docSys-|>IDocSys
+server --> IDocSys : 1..1
+
+
+docSys --> reading_list
+docSys --> Category : 1..n
+
+docSys-|>ICat
+Category-|>ICat
+
+Category --> document  : m..n
+Category --> Category  : 0..n
 
 reading_list --> document
+
+'circle IDOD 
+'IDOD -- docSys
+' server -(0- docSys
 
 @enduml
